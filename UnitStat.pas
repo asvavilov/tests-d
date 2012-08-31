@@ -1,0 +1,93 @@
+unit UnitStat;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, Buttons, StdCtrls, RXCtrls, ExtCtrls;
+
+type
+  TfrmStat = class(TForm)
+    vivod: TMemo;
+    stReturn: TBitBtn;
+    stExit: TBitBtn;
+    RxLabel1: TRxLabel;
+    RxLabel2: TRxLabel;
+    stKolQ: TRxLabel;
+    stBalls: TRxLabel;
+    Image1: TImage;
+    procedure FormHide(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure stReturnClick(Sender: TObject);
+    procedure stExitClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmStat: TfrmStat;
+
+implementation
+
+uses UnitStart, UnitTest;
+
+{$R *.dfm}
+
+//================================================================
+procedure TfrmStat.FormHide(Sender: TObject);
+begin
+frmStart.Show;
+end;
+
+//================================================================
+procedure TfrmStat.FormShow(Sender: TObject);
+var i, j: integer;
+begin
+showmessage('Тестирование окончено.'+chr(13)+
+            'Всего баллов: '+inttostr(balls)+chr(13)+
+            'из '+inttostr(qh.kolQ)+' вопросов.');
+vivod.Hide;
+stKolQ.Caption:=inttostr(qh.kolQ);
+//stQok.Caption:=inttostr(Qok);
+stBalls.Caption:=inttostr(balls);
+j:=0;
+for i:=0 to (qh.balls.Count-1) div 2 do
+  begin
+
+  vivod.Text:=qh.balls.Strings[i*2];
+  if i=(qh.balls.Count-1) div 2 then
+    begin
+    vivod.Show;
+    exit;
+    end;
+
+  //верхняя граница включительно
+  if balls<=strtoint(qh.balls.Strings[i*2+1]) then
+    begin
+    vivod.Show;
+    exit;
+    end;
+  end;
+
+end;
+
+//================================================================
+procedure TfrmStat.stReturnClick(Sender: TObject);
+begin
+frmStat.Close;
+//frmStat.Hide;
+//frmStart.Show;
+
+end;
+
+//================================================================
+procedure TfrmStat.stExitClick(Sender: TObject);
+begin
+frmStart.Close;
+
+end;
+
+//================================================================
+end.
